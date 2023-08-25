@@ -663,13 +663,17 @@ static void osd_input_update_internal_bitmasks(void)
 	       if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_UP))
 		  input.analog[i][1] = 0;
 	       else if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_DOWN))
-		  input.analog[i][1] = 256;
+		  input.analog[i][1] = 255;
+	       else if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
+		  input.analog[i][1] = 128;
 	       else
                   input.analog[i][1] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8;
 	       if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_LEFT))
 		  input.analog[i][0] = 0;
 	       else if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_RIGHT))
-		  input.analog[i][0] = 256;
+		  input.analog[i][0] = 255;
+	       else if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
+		  input.analog[i][0] = 128;
 	       else
                   input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) >> 8;
 
@@ -895,13 +899,17 @@ static void osd_input_update_internal(void)
 	       if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
 		  input.analog[i][1] = 0;
 	       else if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
-		  input.analog[i][1] = 256;
+		  input.analog[i][1] = 255;
+	       else if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
+		  input.analog[i][1] = 128;
 	       else
                   input.analog[i][1] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8;
 	       if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
 		  input.analog[i][0] = 0;
 	       else if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
-		  input.analog[i][0] = 256;
+		  input.analog[i][0] = 255;
+	       else if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
+		  input.analog[i][0] = 128;
 	       else
                   input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) >> 8;
 
