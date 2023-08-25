@@ -679,6 +679,14 @@ static void osd_input_update_internal_bitmasks(void)
                   temp |= INPUT_XE_SELECT;
                if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_START))
                   temp |= INPUT_XE_START;
+               if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_UP))
+                  temp |= INPUT_UP;
+               if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_DOWN))
+                  temp |= INPUT_DOWN;
+               if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_LEFT))
+                  temp |= INPUT_LEFT;
+               if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_RIGHT))
+                  temp |= INPUT_RIGHT;
 
                player++;
                ret = input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
@@ -901,6 +909,14 @@ static void osd_input_update_internal(void)
                   temp |= INPUT_XE_SELECT;
                if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START))
                   temp |= INPUT_XE_START;
+               if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
+                  temp |= INPUT_UP;
+               if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
+                  temp |= INPUT_DOWN;
+               if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
+                  temp |= INPUT_LEFT;
+               if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
+                  temp |= INPUT_RIGHT;
 
                player++;
                break;
