@@ -667,7 +667,12 @@ static void osd_input_update_internal_bitmasks(void)
 	       else if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
 		  input.analog[i][1] = 128;
 	       else
-                  input.analog[i][1] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8;
+	       {
+		  if (config.invert_xe1ap == 1)
+                     input.analog[i][1] = 255 - ((input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8);
+		  else
+		     input.analog[i][1] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8; 
+	       }
 	       if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_LEFT))
 		  input.analog[i][0] = 0;
 	       else if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_RIGHT))
@@ -903,7 +908,12 @@ static void osd_input_update_internal(void)
 	       else if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
 		  input.analog[i][1] = 128;
 	       else
-                  input.analog[i][1] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8;
+	       {
+		  if (config.invert_xe1ap == 1)
+                     input.analog[i][1] = 255 - ((input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8);
+		  else
+		     input.analog[i][1] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8; 
+	       }
 	       if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
 		  input.analog[i][0] = 0;
 	       else if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
@@ -2020,6 +2030,15 @@ static void check_variables(bool first_run)
       config.invert_mouse = 0;
     else
       config.invert_mouse = 1;
+  }
+
+  var.key = "genesis_plus_gx_invert_xe1ap";
+  environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var);
+  {
+    if (!var.value || !strcmp(var.value, "disabled"))
+      config.invert_xe1ap = 0;
+    else
+      config.invert_xe1ap = 1;
   }
 
   var.key = "genesis_plus_gx_left_border";
