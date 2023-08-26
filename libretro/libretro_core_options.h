@@ -806,6 +806,20 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "disabled"
    },
    {
+      "genesis_plus_gx_invert_xe1ap",
+      "Invert XE-1AP Y-Axis",
+      NULL,
+      "Inverts the Y-axis of the left stick of the XE-1 AP input device type.",
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled",  NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "genesis_plus_gx_no_sprite_limit",
       "Remove Per-Line Sprite Limit",
       NULL,
