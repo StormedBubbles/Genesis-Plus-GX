@@ -130,6 +130,7 @@ typedef struct
   uint8 render;
   t_input_config input[MAX_INPUTS];
   uint8 invert_mouse;
+  uint8 invert_xe1ap;
   uint8 gun_cursor;
   uint32 overclock;
   uint8 no_sprite_limit;
