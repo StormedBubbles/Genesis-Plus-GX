@@ -576,7 +576,7 @@ static void osd_input_update_internal_bitmasks(void)
             if (config.mspcircle == 1)
 	       input.analog[i][0] = (int)((atan2(
 		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f) - 127,
-		       256 - (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f) - 127)
+		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f) - 127)
 		       + 2*M_PI) * 256 / (2*M_PI)) % 256;
 	    else
 	       input.analog[i][0] = config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
@@ -830,9 +830,14 @@ static void osd_input_update_internal(void)
             break;
 
          case DEVICE_PADDLE:
-            //input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) >> 8;
-            input.analog[i][0] = config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
-		 
+            if (config.mspcircle == 1)
+	       input.analog[i][0] = (int)((atan2(
+		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f) - 127,
+		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f) - 127)
+		       + 2*M_PI) * 256 / (2*M_PI)) % 256;
+	    else
+	       input.analog[i][0] = config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
+	 
             if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B))
                temp |= INPUT_BUTTON1;
             if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START))
