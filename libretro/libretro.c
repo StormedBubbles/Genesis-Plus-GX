@@ -657,6 +657,8 @@ static void osd_input_update_internal_bitmasks(void)
             {
 	       if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_X))
 	          xe1ap_digital = 1;
+                    else
+                       xe1ap_digital = 0;
                int rx = input.analog[i][0] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_X);
                int ry = input.analog[i][1] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_Y);
                if (abs(rx) > abs(ry))
@@ -905,6 +907,8 @@ static void osd_input_update_internal(void)
             {
                if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
 	       xe1ap_digital = 1;
+               else
+                  xe1ap_digital = 0;
                int rx = input.analog[i][0] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_X);
                int ry = input.analog[i][1] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_Y);
                if (abs(rx) > abs(ry))
