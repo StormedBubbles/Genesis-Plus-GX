@@ -674,6 +674,9 @@ static void osd_input_update_internal_bitmasks(void)
                   temp |= INPUT_LEFT;
                   if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_RIGHT))
                   temp |= INPUT_RIGHT;
+                  player++;
+                  ret = input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
+                  break;
 	       }
                else
 	       {
@@ -727,11 +730,10 @@ static void osd_input_update_internal_bitmasks(void)
                      temp |= INPUT_XE_SELECT;
                   if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_START))
                      temp |= INPUT_XE_START;
+                  player++;
+                  ret = input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
+                  break;
 	       }
-
-               player++;
-               ret = input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
-               break;
             }
 
          default:
@@ -944,6 +946,8 @@ static void osd_input_update_internal(void)
                      temp |= INPUT_LEFT;
                   if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
                      temp |= INPUT_RIGHT;
+                  player++;
+                  break;
 	       }
                else
 	       {
@@ -997,10 +1001,9 @@ static void osd_input_update_internal(void)
                      temp |= INPUT_XE_SELECT;
                   if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START))
                      temp |= INPUT_XE_START;
+                  player++;
+                  break;
 	       }
-
-               player++;
-               break;
             }
 
          default:
