@@ -177,6 +177,7 @@ typedef struct
 static int maxcheats = 0;
 static int maxROMcheats = 0;
 static int maxRAMcheats = 0;
+static int xe1ap_digital = 0;
 
 static CHEATENTRY cheatlist[MAX_CHEATS];
 static uint8_t cheatIndexes[MAX_CHEATS];
@@ -654,6 +655,8 @@ static void osd_input_update_internal_bitmasks(void)
 
          case DEVICE_XE_1AP:
             {
+	       if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_X))
+	          xe1ap_digital = 1;
                int rx = input.analog[i][0] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_X);
                int ry = input.analog[i][1] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_Y);
                if (abs(rx) > abs(ry))
@@ -900,6 +903,8 @@ static void osd_input_update_internal(void)
 
          case DEVICE_XE_1AP:
             {
+               if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
+	       xe1ap_digital = 1;
                int rx = input.analog[i][0] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_X);
                int ry = input.analog[i][1] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_Y);
                if (abs(rx) > abs(ry))
@@ -3212,7 +3217,13 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
          input.system[port] = SYSTEM_SPORTSPAD;
          break;
       case RETRO_DEVICE_XE_1AP:
-         input.system[port] = SYSTEM_XE_1AP;
+	 if (xe1ap_digital == 1)
+	 {
+	    config.input[port].padtype = DEVICE_PAD3B;
+            input.system[port] = SYSTEM_GAMEPAD;
+	 }
+	 else
+            input.system[port] = SYSTEM_XE_1AP;
          break;
       case RETRO_DEVICE_MOUSE:
          input.system[port] = SYSTEM_MOUSE;
