@@ -575,8 +575,8 @@ static void osd_input_update_internal_bitmasks(void)
          case DEVICE_PADDLE:
             if (config.mspcircle == 1)
 	       input.analog[i][0] = (int)((atan2(
-		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f) - 127,
-		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f) - 127)
+		       256 - (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f) - 128,
+		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f) - 128)
 		       + 2*M_PI) * 256 / (2*M_PI)) % 256;
 	    else
 	       input.analog[i][0] = config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
@@ -832,8 +832,8 @@ static void osd_input_update_internal(void)
          case DEVICE_PADDLE:
             if (config.mspcircle == 1)
 	       input.analog[i][0] = (int)((atan2(
-		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f) - 127,
-		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f) - 127)
+		       256 - (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f) - 128,
+		       (config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f) - 128)
 		       + 2*M_PI) * 256 / (2*M_PI)) % 256;
 	    else
 	       input.analog[i][0] = config.mspxoffset + config.mspxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
