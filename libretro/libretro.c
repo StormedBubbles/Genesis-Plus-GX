@@ -2091,6 +2091,16 @@ static void check_variables(bool first_run)
       config.invert_xe1ap = 1;
   }
 
+  var.key = "genesis_plus_gx_circle_msp";
+  environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var);
+  {
+    if (!var.value || !strcmp(var.value, "disabled"))
+      config.mspcircle = 0;
+    else
+      config.mspcircle = 1;
+  }
+
+	
   var.key = "genesis_plus_gx_left_border";
   environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var);
   {
