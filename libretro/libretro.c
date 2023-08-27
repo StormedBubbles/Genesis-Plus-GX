@@ -669,9 +669,9 @@ static void osd_input_update_internal_bitmasks(void)
 	       else
 	       {
 		  if (config.invert_xe1ap == 1)
-                     input.analog[i][1] = 255 - (config.xe1apyoffset + config.xe1apyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8);
+                     input.analog[i][1] = 255 - (config.xe1apyoffset + config.xe1apyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f);
 		  else
-		     input.analog[i][1] = config.xe1apyoffset + config.xe1apyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8; 
+		     input.analog[i][1] = config.xe1apyoffset + config.xe1apyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f; 
 	       }
 	       if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_LEFT))
 		  input.analog[i][0] = 0;
@@ -680,7 +680,7 @@ static void osd_input_update_internal_bitmasks(void)
 	       else if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
 		  input.analog[i][0] = 128;
 	       else
-                  input.analog[i][0] = config.xe1apxoffset + config.xe1apxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) >> 8;
+                  input.analog[i][0] = config.xe1apxoffset + config.xe1apxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
 
                if (input.analog[i][0] < 0) input.analog[i][0] = 0;
                if (input.analog[i][0] > 255) input.analog[i][0] = 255;
@@ -915,9 +915,9 @@ static void osd_input_update_internal(void)
 	       else
 	       {
 		  if (config.invert_xe1ap == 1)
-                     input.analog[i][1] = 255 - (config.xe1apyoffset + config.xe1apyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8);
+                     input.analog[i][1] = 255 - (config.xe1apyoffset + config.xe1apyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f);
 		  else
-		     input.analog[i][1] = config.xe1apyoffset + config.xe1apyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) >> 8; 
+		     input.analog[i][1] = config.xe1apyoffset + config.xe1apyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f; 
 	       }
 	       if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
 		  input.analog[i][0] = 0;
@@ -926,7 +926,7 @@ static void osd_input_update_internal(void)
 	       else if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
 		  input.analog[i][0] = 128;
 	       else
-                  input.analog[i][0] = config.xe1apxoffset + config.xe1apxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) >> 8;
+                  input.analog[i][0] = config.xe1apxoffset + config.xe1apxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
 
                if (input.analog[i][0] < 0) input.analog[i][0] = 0;
                if (input.analog[i][0] > 255) input.analog[i][0] = 255;
