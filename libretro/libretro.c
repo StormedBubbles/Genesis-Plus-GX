@@ -2050,6 +2050,18 @@ static void check_variables(bool first_run)
     config.xe1apyoffset = atof(var.value) / 100.0 * 255.0;
   }
 
+  var.key = "genesis_plus_gx_msp_x_ratio";
+  environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var);
+  {
+    config.mspxratio = atof(var.value);
+  }
+
+  var.key = "genesis_plus_gx_msp_x_offset";
+  environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var);
+  {
+    config.mspxoffset = atof(var.value) / 100.0 * 255.0;
+  }
+
   var.key = "genesis_plus_gx_gun_input";
   environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var);
   {
