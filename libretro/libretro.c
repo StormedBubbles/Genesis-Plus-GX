@@ -3262,10 +3262,7 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
          break;
       case RETRO_DEVICE_XE_1AP:
 	 if (xe1ap_digital == 1)
-	 {
-	    config.input[port].padtype = DEVICE_PAD3B;
             input.system[port] = SYSTEM_GAMEPAD;
-	 }
 	 else
             input.system[port] = SYSTEM_XE_1AP;
          break;
