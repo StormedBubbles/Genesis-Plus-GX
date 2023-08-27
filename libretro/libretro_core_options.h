@@ -1147,6 +1147,20 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "disabled"
    },
    {
+      "genesis_plus_gx_circle_msp",
+      "Circular MS Paddle",
+      NULL,
+      "Uses both axes of the Lightgun input to find a target when the MS Paddle is used to describe a circle.",
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled",  NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "genesis_plus_gx_no_sprite_limit",
       "Remove Per-Line Sprite Limit",
       NULL,
