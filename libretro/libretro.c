@@ -573,7 +573,7 @@ static void osd_input_update_internal_bitmasks(void)
             break;
 
          case DEVICE_PADDLE:
-            input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_ANALOG, 0, RETRO_DEVICE_ID_ANALOG_X) + 0x8000) >> 8;
+            input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) >> 8;
 
             if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_B))
                temp |= INPUT_BUTTON1;
@@ -824,7 +824,7 @@ static void osd_input_update_internal(void)
             break;
 
          case DEVICE_PADDLE:
-            input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_ANALOG, 0, RETRO_DEVICE_ID_ANALOG_X) + 0x8000) >> 8;
+            input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) >> 8;
 
             if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B))
                temp |= INPUT_BUTTON1;
