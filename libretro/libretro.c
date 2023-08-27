@@ -3265,10 +3265,13 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
 	 {
 	    config.input[port].padtype = DEVICE_PAD3B;
             input.system[port] = SYSTEM_GAMEPAD;
+            break;
 	 }
 	 else
+	 {
             input.system[port] = SYSTEM_XE_1AP;
-         break;
+            break;
+	 }
       case RETRO_DEVICE_MOUSE:
          input.system[port] = SYSTEM_MOUSE;
          break;
