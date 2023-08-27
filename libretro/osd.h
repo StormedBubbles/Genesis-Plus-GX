@@ -134,6 +134,8 @@ typedef struct
   float xe1apyratio;
   float xe1apxoffset;
   float xe1apyoffset;
+  float mspxratio;
+  float mspxoffset;
   uint8 invert_xe1ap;
   uint8 gun_cursor;
   uint32 overclock;
