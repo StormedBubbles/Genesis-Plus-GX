@@ -473,6 +473,8 @@ static void osd_input_update_internal_bitmasks(void)
                temp |= INPUT_MODE;
 
          case DEVICE_PAD3B:
+	    if !(ret & (1 << RETRO_DEVICE_ID_JOYPAD_X))
+	       retro_set_controller_port_device(player, RETRO_DEVICE_XE_1AP);
             if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_Y))
                temp |= INPUT_A;
 
@@ -656,33 +658,7 @@ static void osd_input_update_internal_bitmasks(void)
          case DEVICE_XE_1AP:
             {
 	       if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_X))
-	          xe1ap_digital = 1;
-	       else
-	          xe1ap_digital = 0;
-	       if (xe1ap_digital == 1)
-	       {
-                  if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_Y))
-                  temp |= INPUT_A;
-                  if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_B))
-                  temp |= INPUT_B;
-                  if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_A))
-                  temp |= INPUT_C;
-                  if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_START))
-                  temp |= INPUT_START;
-                  if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_UP))
-                  temp |= INPUT_UP;
-                  if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_DOWN))
-                  temp |= INPUT_DOWN;
-                  if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_LEFT))
-                  temp |= INPUT_LEFT;
-                  if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_RIGHT))
-                  temp |= INPUT_RIGHT;
-                  player++;
-                  ret = input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
-                  break;
-	       }
-               else
-	       {
+		  retro_set_controller_port_device(player, RETRO_DEVICE_MDPAD_3B);
                   int rx = input.analog[i][0] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_X);
                   int ry = input.analog[i][1] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_Y);
                   if (abs(rx) > abs(ry))
@@ -735,7 +711,6 @@ static void osd_input_update_internal_bitmasks(void)
                   player++;
                   ret = input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_MASK);
                   break;
-	       }
             }
 
          default:
@@ -767,6 +742,8 @@ static void osd_input_update_internal(void)
                temp |= INPUT_MODE;
 
          case DEVICE_PAD3B:
+            if !(input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
+	       retro_set_controller_port_device(player, RETRO_DEVICE_XE_1AP);
             if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y))
                temp |= INPUT_A;
 
@@ -930,32 +907,7 @@ static void osd_input_update_internal(void)
          case DEVICE_XE_1AP:
             {
                if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
-	          xe1ap_digital = 1;
-	       else
-	          xe1ap_digital = 0;
-	       if (xe1ap_digital == 1)
-	       {
-                  if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y))
-                     temp |= INPUT_A;
-                  if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B))
-                     temp |= INPUT_B;
-                  if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A))
-                     temp |= INPUT_C;
-                  if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START))
-                     temp |= INPUT_START;
-                  if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
-                     temp |= INPUT_UP;
-                  if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
-                     temp |= INPUT_DOWN;
-                  if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
-                     temp |= INPUT_LEFT;
-                  if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
-                     temp |= INPUT_RIGHT;
-                  player++;
-                  break;
-	       }
-               else
-	       {
+	          retro_set_controller_port_device(player, RETRO_DEVICE_MDPAD_3B);
                   int rx = input.analog[i][0] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_X);
                   int ry = input.analog[i][1] = input_state_cb(player, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT, RETRO_DEVICE_ID_ANALOG_Y);
                   if (abs(rx) > abs(ry))
@@ -1007,7 +959,6 @@ static void osd_input_update_internal(void)
                      temp |= INPUT_XE_START;
                   player++;
                   break;
-	       }
             }
 
          default:
@@ -3268,17 +3219,8 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
          input.system[port] = SYSTEM_SPORTSPAD;
          break;
       case RETRO_DEVICE_XE_1AP:
-	 if (xe1ap_digital == 1)
-	 {
-	    config.input[port].padtype = DEVICE_PAD3B;
-            input.system[port] = SYSTEM_GAMEPAD;
-            break;
-	 }
-	 else
-	 {
-            input.system[port] = SYSTEM_XE_1AP;
-            break;
-	 }
+         input.system[port] = SYSTEM_XE_1AP;
+         break;
       case RETRO_DEVICE_MOUSE:
          input.system[port] = SYSTEM_MOUSE;
          break;
