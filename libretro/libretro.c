@@ -473,7 +473,7 @@ static void osd_input_update_internal_bitmasks(void)
                temp |= INPUT_MODE;
 
          case DEVICE_PAD3B:
-	    if !(ret & (1 << RETRO_DEVICE_ID_JOYPAD_X))
+	    if (!(ret & (1 << RETRO_DEVICE_ID_JOYPAD_X)))
 	       retro_set_controller_port_device(player, RETRO_DEVICE_XE_1AP);
             if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_Y))
                temp |= INPUT_A;
@@ -742,7 +742,7 @@ static void osd_input_update_internal(void)
                temp |= INPUT_MODE;
 
          case DEVICE_PAD3B:
-            if !(input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
+            if (!(input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X)))
 	       retro_set_controller_port_device(player, RETRO_DEVICE_XE_1AP);
             if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y))
                temp |= INPUT_A;
