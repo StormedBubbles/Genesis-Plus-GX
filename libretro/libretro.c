@@ -656,8 +656,11 @@ static void osd_input_update_internal_bitmasks(void)
          case DEVICE_XE_1AP:
             {
 	       if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_X))
-	       {
 	          xe1ap_digital = 1;
+	       else
+	          xe1ap_digital = 0;
+	       if (xe1ap_digital == 1)
+	       {
                   if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_Y))
                   temp |= INPUT_A;
                   if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_B))
@@ -928,8 +931,11 @@ static void osd_input_update_internal(void)
          case DEVICE_XE_1AP:
             {
                if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
-	       {
 	          xe1ap_digital = 1;
+	       else
+	          xe1ap_digital = 0;
+	       if (xe1ap_digital == 1)
+	       {
                   if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y))
                      temp |= INPUT_A;
                   if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B))
