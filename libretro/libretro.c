@@ -558,8 +558,8 @@ static void osd_input_update_internal_bitmasks(void)
                }
                else
                {
-                  input.analog[i][0] = ((input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x7fff) * bitmap.viewport.w) / 0xfffe;
-                  input.analog[i][1] = ((input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x7fff) * bitmap.viewport.h) / 0xfffe;
+				  input.analog[i][0] = config.lightgunxoffset + config.lightgunxratio * ((input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x7fff) * bitmap.viewport.w) / 0xfffe;
+                  input.analog[i][1] = config.lightgunyoffset + config.lightgunyratio * ((input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x7fff) * bitmap.viewport.h) / 0xfffe;
                }
 
                if (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_TRIGGER))
@@ -577,7 +577,6 @@ static void osd_input_update_internal_bitmasks(void)
             break;
 
          case DEVICE_PADDLE:
-            //input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_ANALOG, 0, RETRO_DEVICE_ID_ANALOG_X) + 0x8000) >> 8;
             if (config.circularpaddle == 1)
 				{
 				int ox = 127; //origin of circle on x-axis
@@ -589,6 +588,11 @@ static void osd_input_update_internal_bitmasks(void)
 				}
 			else
 				input.analog[i][0] = config.lightgunxoffset + config.lightgunxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
+
+			if (input.analog[i][0] > 255)
+				input.analog[i][0] = 255;
+			if (input.analog[i][0] < 0)
+				input.analog[i][0] = 0;
 
             if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_B))
                temp |= INPUT_BUTTON1;
@@ -686,9 +690,10 @@ static void osd_input_update_internal_bitmasks(void)
 	          else
 	          {
 		     if (config.invert_xe1ap == 1)
-                        input.analog[i][1] = 255 - (config.lightgunyoffset + config.lightgunyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f);
+                        input.analog[i][1] = 255 - (config.lightgunyoffset + config.lightgunyratio * ((input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x7fff) * bitmap.viewport.h) / 0xfffe);
 		     else
-		        input.analog[i][1] = config.lightgunyoffset + config.lightgunyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f; 
+		        input.analog[i][1] = config.lightgunyoffset + config.lightgunyratio * ((input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f); 
+			
 	          }
 	          if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_LEFT))
 		     input.analog[i][0] = 0;
@@ -3942,24 +3947,25 @@ void retro_run(void)
    }
 
    if (config.gun_cursor)
-   {
+   {	   
       if (input.system[0] == SYSTEM_LIGHTPHASER)
       {
-         draw_cursor(input.analog[0][0], input.analog[0][1], 0x001f);
+         draw_cursor(((input.analog[0][0] - config.lightgunxoffset) / config.lightgunxratio), ((input.analog[0][1] - config.lightgunyoffset) / config.lightgunyratio), 0x001f);
       }
       else if (input.dev[4] == DEVICE_LIGHTGUN)
       {
-         draw_cursor(input.analog[4][0], input.analog[4][1], 0x001f);
+         draw_cursor(((input.analog[4][0] - config.lightgunxoffset) / config.lightgunxratio), ((input.analog[4][1] - config.lightgunyoffset) / config.lightgunyratio), 0x001f);
       }
 
       if (input.system[1] == SYSTEM_LIGHTPHASER)
       {
-         draw_cursor(input.analog[4][0], input.analog[4][1], 0xf800);
+         draw_cursor(((input.analog[4][0] - config.lightgunxoffset) / config.lightgunxratio), ((input.analog[4][1] - config.lightgunyoffset) / config.lightgunyratio), 0xf800);
       }
       else if (input.dev[5] == DEVICE_LIGHTGUN)
       {
-         draw_cursor(input.analog[5][0], input.analog[5][1], 0xf800);
+         draw_cursor(((input.analog[5][0] - config.lightgunxoffset) / config.lightgunxratio), ((input.analog[5][1] - config.lightgunyoffset) / config.lightgunyratio), 0xf800);
       }
+	  
    }
    
    if ((config.left_border != 0) && (reg[0] & 0x20) && (bitmap.viewport.x == 0) && ((system_hw == SYSTEM_MARKIII) || (system_hw & SYSTEM_SMS) || (system_hw == SYSTEM_PBC)))
