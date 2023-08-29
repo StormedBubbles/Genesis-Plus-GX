@@ -45,6 +45,7 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <math.h>
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -576,7 +577,18 @@ static void osd_input_update_internal_bitmasks(void)
             break;
 
          case DEVICE_PADDLE:
-            input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_ANALOG, 0, RETRO_DEVICE_ID_ANALOG_X) + 0x8000) >> 8;
+            //input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_ANALOG, 0, RETRO_DEVICE_ID_ANALOG_X) + 0x8000) >> 8;
+            if (config.circularpaddle == 1)
+				{
+				int ox = 127; //origin of circle on x-axis
+				int oy = 127; ////origin of circle on y-axis
+				int paddlemax = 256;
+				int rx = 256 - (config.lightgunxoffset + config.lightgunxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f);
+				int ry = (config.lightgunyoffset + config.lightgunyratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y) + 0x8000) / 256.f);
+				input.analog[i][0] = (int)((atan2(rx - ox, ry - oy) + 2*M_PI) * paddlemax / (2*M_PI)) % paddlemax;
+				}
+			else
+				input.analog[i][0] = config.lightgunxoffset + config.lightgunxratio * (input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X) + 0x8000) / 256.f;
 
             if (ret & (1 << RETRO_DEVICE_ID_JOYPAD_B))
                temp |= INPUT_BUTTON1;
@@ -2080,6 +2092,15 @@ static void check_variables(bool first_run)
       config.invert_xe1ap = 0;
     else
       config.invert_xe1ap = 1;
+  }
+
+  var.key = "genesis_plus_gx_circular_paddle";
+  environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var);
+  {
+    if (!var.value || !strcmp(var.value, "disabled"))
+      config.circularpaddle = 0;
+    else
+      config.circularpaddle = 1;
   }
 
   var.key = "genesis_plus_gx_left_border";
