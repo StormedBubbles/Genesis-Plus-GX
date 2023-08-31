@@ -847,7 +847,7 @@ static void osd_input_update_internal(void)
             break;
 
          case DEVICE_PADDLE:
-            input.analog[i][0] = (input_state_cb(player, RETRO_DEVICE_ANALOG, 0, RETRO_DEVICE_ID_ANALOG_X) + 0x8000) >> 8;
+            input.analog[i][0] = 255 - (((atan2(-input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y),input_state_cb(player, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X)) + (M_PI / 2)) / (2 * M_PI) + 1/4) * 255);
 
             if (input_state_cb(player, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B))
                temp |= INPUT_BUTTON1;
